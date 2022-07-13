@@ -81,6 +81,10 @@ module.exports = class Player {
   getVODStreamCategories () {
     return this.execute('get_vod_categories')
   }
+  
+  getSeriesStreamCategories () {
+    return this.execute('get_series_categories')
+  }
 
   /**
    * @param {string} [category]
@@ -94,6 +98,13 @@ module.exports = class Player {
    */
   getVODStreams (category) {
     return this.execute('get_vod_streams', { category_id: category })
+  }
+  
+  /**
+   * @param {string} [category]
+   */
+  getSeriesStreams (category) {
+    return this.execute('get_series', { category_id: category })
   }
 
   /**
