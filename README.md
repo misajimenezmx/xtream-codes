@@ -33,6 +33,11 @@ player.getVODStreamCategories()
   .then(console.log)
   .catch(console.log)
 
+// GET Series Stream Categories
+player.getSeriesStreamCategories()
+  .then(console.log)
+  .catch(console.log)
+
 // GET LIVE Streams
 player.getLiveStreams(category?: number) // (This will get All LIVE Streams in the selected category ONLY)
   .then(console.log)
@@ -40,6 +45,11 @@ player.getLiveStreams(category?: number) // (This will get All LIVE Streams in t
 
 // GET VOD Streams 
 player.getVODStreams(category?: number)
+  .then(console.log)
+  .catch(console.log)
+
+// GET VOD Streams 
+player.getSeriesStreams(category?: number)
   .then(console.log)
   .catch(console.log)
 
