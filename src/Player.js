@@ -51,8 +51,11 @@ module.exports = class Player {
 
     return Promise.resolve()
       .then(() => fetch(`${this.config.baseUrl}/player_api.php?${qs.stringify(query)}`))
-      .then(T => T.json())
-      .then(data => {
+      .then(T => T.text())
+      .then(text => {
+        if(!this.isJsonString(text))
+          return Promise.reject(new Error(text))
+        const data = JSON.parse(text);
         if (action && data.hasOwnProperty('user') &&
           data.user.hasOwnProperty('status') &&
           data.user_info.status === 'Disabled') {
@@ -62,6 +65,15 @@ module.exports = class Player {
         return data
       })
   }
+
+  isJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
 
   getAccountInfo () {
     return this.execute()
@@ -105,6 +117,13 @@ module.exports = class Player {
    */
   getSeriesStreams (category) {
     return this.execute('get_series', { category_id: category })
+  }
+  
+  /**
+   * @param {string} [seriesId]
+   */
+   getSeriesInfo (seriesId) {
+    return this.execute('get_series_info', { series_id: seriesId })
   }
 
   /**
