@@ -46,15 +46,21 @@ module.exports = class Player {
    * @param {{ [ key: string ]: string }} [filter]
    * @returns {Promise<any>}
    */
-  execute (action, filter) {
+   execute (action, filter) {
     const query = pickBy({ ...this.config.auth, action, ...filter })
 
     return Promise.resolve()
       .then(() => fetch(`${this.config.baseUrl}/player_api.php?${qs.stringify(query)}`))
-      .then(T => T.text())
+      .then(T => {
+        if(T.status === 200){
+          return T.text()
+        }else{
+          return Promise.reject(new Error(T.statusText))
+        }
+      })
       .then(text => {
         if(!this.isJsonString(text))
-          return Promise.reject(new Error(text))
+          return Promise.reject(new Error(text || 'Empty Json'))
         const data = JSON.parse(text);
         if (action && data.hasOwnProperty('user') &&
           data.user.hasOwnProperty('status') &&
